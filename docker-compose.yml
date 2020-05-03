@@ -1,0 +1,26 @@
+version: "3.7"
+services:
+  app:
+    hostname: app
+    networks:
+      - local
+    image: node:14
+    user: node
+    working_dir: /home/node/app
+    volumes:
+      - ./app/:/home/node/app
+    command: "npm start"
+    expose:
+      - 3000
+  
+  proxy:
+    networks:
+      - local
+    build:
+      context: ./proxy
+      dockerfile: ./docker/Dockerfile
+    ports:
+      - "80:80"
+   
+networks:
+  local:
